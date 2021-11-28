@@ -13,6 +13,8 @@ case class ApiConfig(port: Int)
 case class DatabaseConfig(port: Int)
 case class AppConfig(api: ApiConfig, db: DatabaseConfig)
 
+// Docs: https://zio.github.io/zio-config/docs/quickstart/quickstart_index
+
 object AppConfig {
   val appDescription = descriptor[AppConfig]
 
