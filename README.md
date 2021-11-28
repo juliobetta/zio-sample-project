@@ -8,10 +8,11 @@ Set up the project with the following features:
 
 * [x] HTTP (zio-http)
 * [x] Configuration (zio-config)
-* [ ] Logs (zio-logging)
+* [X] Logs (zio-logging)
+* [ ] Metrics (zio-metrics, zio-zmx) https://www.youtube.com/watch?v=oMJ1RMdR7wg
 * [ ] JSON parser (zio-json)
-* [ ] Database (Quill)
-* [ ] GraphQL (Caliban)
+* [ ] Database (Quill) https://www.youtube.com/watch?v=SmBpGkIsJIU
+* [ ] GraphQL (Caliban) https://www.youtube.com/watch?v=mzqsXklbmfM
 * [ ] Authentication (Okta???)
 
 _Bonus_
