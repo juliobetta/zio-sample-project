@@ -16,9 +16,10 @@ case class AppConfig(api: ApiConfig, db: DatabaseConfig)
 // Docs: https://zio.github.io/zio-config/docs/quickstart/quickstart_index
 
 object AppConfig {
+  // TODO: figure out how to get some values from system env instead of config file
   val appDescription = descriptor[AppConfig]
 
-  val live: ZLayer[system.System, Nothing, Has[AppConfig]] =
+  val live: ZLayer[System, Nothing, AppConfig] =
     TypesafeConfig
       .fromHoconString(
         Source.fromResource("application.conf").getLines.mkString,
@@ -26,5 +27,5 @@ object AppConfig {
       )
       .orDie
 
-  val service: URIO[Has[AppConfig], AppConfig] = ZIO.service[AppConfig]
+  val service: URIO[AppConfig, AppConfig] = ZIO.service[AppConfig]
 }
