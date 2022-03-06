@@ -3,11 +3,12 @@ ThisBuild / version          := "0.1.0-SNAPSHOT"
 ThisBuild / organization     := "com.maalka"
 ThisBuild / organizationName := "Maalka"
 
-val zioVersion = "1.0.12" // TODO: upgrade to 2.0.0-M6-2. zio-http does not support it yet... =(
-val zioHttpVersion = "1.0.0.0-RC17"
-val zioConfigVersion = "1.0.10"
-val zioLoggingVersion = "0.5.14"
-val slf4jVersion = "1.7.32"
+val zioVersion = "2.0.0-RC2"
+val zioHttpVersion = "2.0.0-RC4"
+val zioConfigVersion = "3.0.0-RC2"
+val zioLoggingVersion = "2.0.0-RC5"
+val zioJsonVersion = "0.3.0-RC3"
+val slf4jVersion = "1.7.36"
 val logbackClassicVersion = "1.2.7"
 val logstashLogbackEncoder = "7.0"
 
@@ -17,6 +18,8 @@ lazy val root = (project in file("."))
     libraryDependencies ++= Seq(
       "dev.zio" %% "zio" % zioVersion,
       "dev.zio" %% "zio-test" % zioVersion % Test,
+
+      "dev.zio" %% "zio-json" % zioJsonVersion,
 
       // Configuration
       "dev.zio" %% "zio-config" % zioConfigVersion,

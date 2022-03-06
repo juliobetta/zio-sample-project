@@ -1,32 +1,33 @@
 package com.maalka
 
 import com.maalka.config.AppConfig
+import com.maalka.domain.HelloResponse
 import com.maalka.logger.MaalkaLogger
 import java.nio.file.Paths
-import zio._
-import zio.logging._
-import zio.{App, ExitCode}
 import zhttp.http.*
+import zio.*
+import zio.logging.*
+import zio.json.*
+import zio.ExitCode
 import zhttp.service.Server
 
-object Main extends App {
+object Main extends ZIOAppDefault {
 
-  val app = Http.collect[Request] {
-    case Method.GET -> Root / "hello" => Response.jsonString("{ \"message\": \"Hello World!!!\" }")
-    case Method.GET -> Root / "test" => Response.jsonString("{ \"message\": \"FOO!!!\" }")
+  val app: Http[Any, Nothing, Request, Response] = Http.collect[Request] {
+    case Method.GET -> !! / "hello" => Response.json("{ \"message\": \"Hello World\" }")
+    case Method.GET -> !! / "test" => Response.json("{ \"message\": \"FOO!!!\" }")
   }
 
-  // TODO: setup zio-logger
-  val program = for {
+  val program: ZIO[System with AppConfig, Throwable, Unit] = for {
     config <- AppConfig.service
-    _ <- log.debug(s"CONFIG -> $config")
-    port <- system.envOrElse("PORT", config.api.port.toString).map(_.toInt).orElseSucceed(config.api.port)
-    _ <- log.info(s"Server started on port $port")
+    _ <- ZIO.logDebug(s"CONFIG -> $config")
+    port <- System.envOrElse("PORT", config.api.port.toString).map(_.toInt).orElseSucceed(config.api.port)
+    _ <- ZIO.logInfo(s"Server started on port $port")
     _ <- Server.start(port, app)
   } yield ()
 
-  override def run(args: List[String]): URIO[zio.ZEnv, ExitCode] =
+  override def run: URIO[ZEnv, ExitCode] =
     program
-      .provideCustomLayer(AppConfig.live ++ MaalkaLogger.live)
+      .provideCustomLayer(AppConfig.live)
       .exitCode
 }
