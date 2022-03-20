@@ -1,4 +1,4 @@
-# Maalka ZIO
+# ZIO Sample Project
 
 This is just a toy project to explore ZIO's potential. 
 
@@ -12,11 +12,11 @@ Set up the project with the following features:
 * [X] JSON parser (zio-json)
 * [ ] Database (Quill) https://www.youtube.com/watch?v=SmBpGkIsJIU
 * [ ] GraphQL (Caliban) https://www.youtube.com/watch?v=mzqsXklbmfM
-* [ ] Authentication (Okta???)
+* [ ] Authentication (OAuth???, Okta???)
 
 _Bonus_
 
-* [x] Scala 3
+* [X] Scala 3
 * [X] ZIO 2.0
 * [ ] Metrics (zio-metrics, zio-zmx) https://www.youtube.com/watch?v=oMJ1RMdR7wg
 
