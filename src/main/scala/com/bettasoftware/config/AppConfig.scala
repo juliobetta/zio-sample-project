@@ -1,4 +1,4 @@
-package com.maalka.config
+package com.bettasoftware.config
 
 import java.io.File
 import java.nio.file.Path
