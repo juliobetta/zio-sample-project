@@ -18,6 +18,9 @@ _Bonus_
 
 * [x] Scala 3
 * [X] ZIO 2.0
+* [X] Dockerize
+* [ ] Deploy with Kubernetes
+* [ ] Setup GitHub Actions
 * [ ] Metrics (zio-metrics, zio-zmx) https://www.youtube.com/watch?v=oMJ1RMdR7wg
 
 
