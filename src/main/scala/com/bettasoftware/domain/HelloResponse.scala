@@ -1,4 +1,4 @@
-package com.maalka.domain
+package com.bettasoftware.domain
 
 import zio.json._
 
