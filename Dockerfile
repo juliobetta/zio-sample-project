@@ -6,8 +6,6 @@ ARG OPENJDK_TAG="11"
 WORKDIR /app
 ADD . /app
 
-RUN ["sbt", "compile"]
-
 EXPOSE 8090
 
 CMD ["sbt", "run"]
