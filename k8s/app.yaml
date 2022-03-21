@@ -1,0 +1,91 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: zio-app-config
+data:
+  # override default configuration if necessary (learning purposes only)
+  application.conf: |
+    {
+      api: {
+        port: 9000
+      }
+      db: { include "database.conf" }
+    }
+  database.conf: |
+    {
+      port: 5432
+    }
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zio-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: server
+  template:
+    metadata:
+      labels:
+        app: server
+    spec:
+      containers:
+        - name: zio-app
+          image: juliobetta/zio-sample-app:latest
+          ports:
+            - containerPort: 9000
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "0.6"
+          volumeMounts:
+            - mountPath: /app/src/main
+              name: zio-app-volume
+          env:
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: DB_PASSWORD
+                  name: zio-app-secret
+      # learning purposes only...
+      volumes:
+        - name: zio-app-volume
+          configMap:
+            name: zio-app-config
+            items:
+              - key: application.conf
+                path: resources/application.conf
+              - key: database.conf
+                path: resources/database.conf
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: zio-app-secret
+type: Opaque
+data:
+  DB_PASSWORD: YWJjMTIzMTIz
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: zio-app-service
+spec:
+  # it generates an external IP
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      # this name is a requirement for Istio
+      name: http-svc
+      port: 9000
+  # determines which pods will accessible via this service
+  # it has to match the selected configured into the deployment file
+  selector:
+    app: server
