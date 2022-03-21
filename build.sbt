@@ -1,3 +1,5 @@
+import com.typesafe.sbt.packager.docker.DockerPlugin.autoImport.dockerBaseImage
+
 ThisBuild / scalaVersion     := "3.1.0"
 ThisBuild / version          := "0.1.0-SNAPSHOT"
 ThisBuild / organization     := "com.bettasoftware"
@@ -16,6 +18,18 @@ val calibanVersion = "2.0.0-RC2"
 lazy val root = (project in file("."))
   .settings(
     name := "zio-sample-project",
+
+    dockerRepository := Some("juliobetta"),
+    dockerBaseImage := "anapsix/alpine-java",
+    dockerUpdateLatest := false,
+    dockerExposedPorts := Seq(9000),
+
+    // this disables appending the scala version to the produced binary when deployed to binary repo
+    crossPaths := false,
+    // This forces the compiler to create a jar for this project and include that in the classpath
+    // If not set the compiler will use the classes directly
+    exportJars := true,
+
     libraryDependencies ++= Seq(
       "dev.zio" %% "zio" % zioVersion,
       "dev.zio" %% "zio-test" % zioVersion % Test,
@@ -45,7 +59,9 @@ lazy val root = (project in file("."))
     ),
     testFrameworks += new TestFramework("zio.test.sbt.ZTestFramework")
   )
-
-enablePlugins(RevolverPlugin)
+  .enablePlugins(
+    RevolverPlugin,
+    JavaAppPackaging,
+  )
 
 Global / onChangedBuildSource := ReloadOnSourceChanges

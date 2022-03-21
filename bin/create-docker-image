@@ -1,0 +1,10 @@
+#!/bin/bash
+
+while getopts v: flag
+do
+    case "${flag}" in
+        v) version=${OPTARG};;
+    esac
+done
+
+sbt clean && sbt "set dockerBaseImage := \"openjdk:11-jre-slim\"" "set version := \"${version}\"" docker:publishLocal
