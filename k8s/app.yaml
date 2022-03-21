@@ -7,7 +7,7 @@ data:
   application.conf: |
     {
       api: {
-        port: 9000
+        port: 8090
       }
       db: { include "database.conf" }
     }
@@ -36,7 +36,7 @@ spec:
         - name: zio-app
           image: juliobetta/zio-sample-app:latest
           ports:
-            - containerPort: 9000
+            - containerPort: 8090
           resources:
             requests:
               memory: "256Mi"
@@ -84,7 +84,7 @@ spec:
     - protocol: TCP
       # this name is a requirement for Istio
       name: http-svc
-      port: 9000
+      port: 8090
   # determines which pods will accessible via this service
   # it has to match the selected configured into the deployment file
   selector:
