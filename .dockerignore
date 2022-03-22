@@ -2,7 +2,6 @@
 .bsp
 k8s
 .git
-Dockerfile
 README.md
 .scalafmt.conf
-target
+bin

@@ -41,28 +41,29 @@ restarts your application.
 
 **Kubernetes** (for learning purposes only)
 
-To deploy the into a k8s cluster, run the following commands
+Create a docker image:
 
-_Deployment_  
-Define the pods image, replicas, etc...
 ```
-kubectl apply -f k8s/deployment.yaml
+chmod +x bin/create-docker-image && \
+./bin/create-docker-image -v <current-version>
 ```
 
-_Service_  
-The pods will get visible to the external world via a service
+> **NOTE**: The output will show a lot of `[error]`. Just ignore it if there's no apparent error at the end of the command.
+
+To deploy the into a k8s cluster, run the following command:
+
 ```
-kubectl apply -f k8s/service.yaml
+kubctl apply -f k8s/templates/app
 ```
 
 In order to access the app, run the following commands:
 
-_Check the pod name__  
+_Check the pod name_  
 ```
 kubectl get pods
 ```
 
 _Map the service port to the local machine_  
 ```
-kubectl port-forward --address 0.0.0.0 <pod-name> <localhost-port>:<service-port> 
+kubectl port-forward --address 0.0.0.0 zio-app/zio-app-service <localhost-port>:9000
 ```
