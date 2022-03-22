@@ -9,8 +9,8 @@ spec:
     - protocol: TCP
       # this name is a requirement for Istio
       name: http-svc
-      port: 8090
+      port: 9000
   # determines which pods will accessible via this service
-  # it has to match the selected configured in int the deployment file
+  # it has to match the selected configured into the deployment file
   selector:
     app: server
