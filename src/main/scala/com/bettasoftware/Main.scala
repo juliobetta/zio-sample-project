@@ -16,7 +16,8 @@ object Main extends ZIOAppDefault {
 
   val app: Http[Any, Nothing, Request, Response] = Http.collectZIO[Request] {
     case Method.GET -> !! => ZIO.succeed(Response.ok)
-    case Method.GET -> !! / "liveliness" => ZIO.succeed(Response.text("OK"))
+    case Method.GET -> !! / "liveness" => ZIO.succeed(Response.text("OK"))
+    case Method.GET -> !! / "wellness" => ZIO.succeed(Response.text("OK"))
     case Method.GET -> !! / "hello" =>
       ZIO.logDebug("Halo Halo!").as(Response.json(HelloResponse("Hey Heeeeey!").toJson))
   }
