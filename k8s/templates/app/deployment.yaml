@@ -14,9 +14,23 @@ spec:
     spec:
       containers:
         - name: zio-app
-          image: juliobetta/zio-sample-project:0.1.0
+          image: juliobetta/zio-sample-project:develop-SNAPSHOT
           ports:
             - containerPort: 9000
+          livenessProbe:
+            httpGet:
+              path: /liveness
+              port: 9000
+            initialDelaySeconds: 40
+            periodSeconds: 10
+            timeoutSeconds: 45
+          readinessProbe:
+            httpGet:
+              path: /wellness
+              port: 9000
+            initialDelaySeconds: 40
+            periodSeconds: 10
+            timeoutSeconds: 45
           resources:
             requests:
               memory: "256Mi"
