@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "zio-app.fullname" . }}-test-connection"
+  labels:
+    {{- include "zio-app.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "zio-app.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never
