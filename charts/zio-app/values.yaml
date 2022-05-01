@@ -26,26 +26,33 @@ serviceAccount:
 podAnnotations: {}
 
 podSecurityContext: {}
-  # fsGroup: 2000
+#   fsGroup: 0
 
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
+securityContext:
+#   capabilities:
+#     drop:
+#     - ALL
+   readOnlyRootFilesystem: true
+   runAsNonRoot: true
+   runAsUser: 1001
 
 service:
   type: ClusterIP
   port: 9000
 
 healthCheck:
+  enabled: true
   readiness:
+    httpGet:
+      path: /wellness
+      port: 9000
     initialDelaySeconds: 40
     periodSeconds: 10
     timeoutSeconds: 45
   liveness:
+    httpGet:
+      path: /liveness
+      port: 9000
     initialDelaySeconds: 40
     periodSeconds: 10
     timeoutSeconds: 45
@@ -67,12 +74,12 @@ ingress:
   #      - chart-example.local
 
 resources:
-   limits:
-     cpu: 1
-     memory: 128Mi
-   requests:
-     cpu: 1
-     memory: 128Mi
+  limits:
+    cpu: "0.8"
+    memory: "512Mi"
+  requests:
+    memory: "256Mi"
+    cpu: "0.6"
 
 autoscaling:
   enabled: true

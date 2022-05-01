@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: zio-app-config
+  name: {{ include "zio-app.name" . }}-config
 data:
   # override default configuration if necessary (learning purposes only)
   application.conf: |
