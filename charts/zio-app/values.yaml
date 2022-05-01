@@ -1,0 +1,99 @@
+# Default values for zio-app.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: juliobetta/zio-sample-project
+  pullPolicy: Always
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: "zio-app"
+fullnameOverride: "zio-app-chart"
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: false
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: "default"
+
+podAnnotations: {}
+
+podSecurityContext: {}
+#   fsGroup: 0
+
+securityContext:
+#   capabilities:
+#     drop:
+#     - ALL
+   readOnlyRootFilesystem: true
+   runAsNonRoot: true
+   runAsUser: 1001
+
+service:
+  type: ClusterIP
+  port: 9000
+
+healthCheck:
+  enabled: true
+  readiness:
+    httpGet:
+      path: /wellness
+      port: 9000
+    initialDelaySeconds: 40
+    periodSeconds: 10
+    timeoutSeconds: 45
+  liveness:
+    httpGet:
+      path: /liveness
+      port: 9000
+    initialDelaySeconds: 40
+    periodSeconds: 10
+    timeoutSeconds: 45
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources:
+  limits:
+    cpu: "0.8"
+    memory: "512Mi"
+  requests:
+    memory: "256Mi"
+    cpu: "0.6"
+
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 4
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+## Tolerations for pod assignment
+## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+tolerations: []
+
+## Configure affinity,
+## More information here https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
+affinity: {}
