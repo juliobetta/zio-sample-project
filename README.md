@@ -41,29 +41,26 @@ restarts your application.
 
 **Kubernetes** (for learning purposes only)
 
-Create a docker image:
+1. [Install Helm](https://helm/docs/intro/install/)
 
-```
-chmod +x bin/create-docker-image && \
-./bin/create-docker-image -v <current-version>
-```
+2. Create a docker image:
+    ```sh
+    chmod +x bin/create-docker-image && \
+    ./bin/create-docker-image -v develop-SNAPSHOT
+    ```
 
-> **NOTE**: The output will show a lot of `[error]`. Just ignore it if there's no apparent error at the end of the command.
+    > **NOTE**: The output will show a lot of `[error]`. Just ignore it if there's no apparent error at the end of the command.
 
-To deploy the into a k8s cluster, run the following command:
-
-```
-kubctl apply -f k8s/templates/app
-```
-
-In order to access the app, run the following commands:
-
-_Check the pod name_  
-```
-kubectl get pods
-```
-
-_Map the service port to the local machine_  
-```
-kubectl port-forward --address 0.0.0.0 zio-app/zio-app-service <localhost-port>:9000
-```
+3. Install the chart running the following command:
+   
+   ```sh
+   chmod +x ./helm/scripts/* && ./helm/scripts/install
+   ```
+   
+   Run `./helm/scripts/uninstall` to uninstall the chart.
+   
+4. To access the app, run the following command:
+   
+   ```sh
+   chmod +x ./bin/port-forward && ./bin/port-forward <LOCALHOST-PORT>
+   ```
